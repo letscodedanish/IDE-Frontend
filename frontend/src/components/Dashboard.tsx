@@ -10,7 +10,7 @@ import Background from "../assets/Images/background-pattern.png"
 import Avatar from "../assets/Images/avatar-female.png"
 
 const SLUG_WORKS = ["car", "dog", "computer", "person", "inside", "word", "for", "please", "to", "cool", "open", "source"];
-const SERVICE_URL = "http://localhost:3001";
+const SERVICE_URL = "https://ide-backend-j3y5.onrender.com";
 
 function getRandomSlug() {
     let slug = "";
