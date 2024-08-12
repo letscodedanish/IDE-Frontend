@@ -1,0 +1,13 @@
+body {
+  font-family: 'Inter', sans-serif;
+  font-size: 14px;
+  overflow-x: hidden;
+  --tw-bg-opacity: 1;
+  background-color: #f9fafb;
+  color: black;
+  zoom: 1;
+  margin: 0;
+}
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
