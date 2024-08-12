@@ -1,5 +1,5 @@
 
-const INSTANCE_URI = "http://localhost:3000";
+const INSTANCE_URI = "https://ide-frontend-puce.vercel.app";
 
 export const Output = () => {
     return <div style={{height: "100vh", background: "white"}}>
