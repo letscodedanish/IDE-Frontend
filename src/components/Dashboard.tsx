@@ -11,7 +11,7 @@ import Avatar from "../assets/Images/avatar-female.png"
 import { Navbar } from './Navbar';
 
 const SLUG_WORKS = ["car", "dog", "computer", "person", "inside", "word", "for", "please", "to", "cool", "open", "source"];
-const SERVICE_URL = "https://ide-backend-xi.vercel.app";
+const SERVICE_URL = "http://13.201.21.248:3001";
 
 function getRandomSlug() {
     let slug = "";

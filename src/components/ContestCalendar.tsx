@@ -31,7 +31,7 @@ const ContestCalendar: React.FC = () => {
                 const sevenDaysAgo = new Date();
                 sevenDaysAgo.setDate(sevenDaysAgo.getDate() - 12);
 
-                const response = await axios.post('https://ide-backend-xi.vercel.app/api/contests', { withCredentials: true });
+                const response = await axios.post('http://13.201.21.248:3001/api/contests', { withCredentials: true });
                 const data = response.data.filter((contest: ContestEvent) => {
                     const contestDate = new Date(contest.startDate);
                     return contestDate >= sevenDaysAgo;

@@ -57,7 +57,7 @@ const LeetCodeDashboard: React.FC = () => {
     setLoading(true);
     setError(null);
     try {
-      const response = await axios.post<{ data: LeetCodeData }>('https://ide-backend-xi.vercel.app/api/leetcode', { username });
+      const response = await axios.post<{ data: LeetCodeData }>('http://13.201.21.248:3001/api/leetcode', { username });
       if (response) {
         setData(response.data.data);
         console.log(response.data.data)
