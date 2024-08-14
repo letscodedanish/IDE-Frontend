@@ -6,6 +6,7 @@ import axios from 'axios';
 import { Navbar } from './Navbar';
 import { FaCode, FaLink } from 'react-icons/fa';
 import { SiCodeforces, SiGeeksforgeeks, SiLeetcode } from "react-icons/si";
+import Footer from './Footer';
 
 const localizer = momentLocalizer(moment);
 
@@ -126,14 +127,14 @@ const ContestCalendar: React.FC = () => {
         switch (platform.toLowerCase()) {
             case 'leetcode':
                 // return <SiLeetcode className="text-lg mr-2" />;
-                return <span><SiLeetcode className='text-[18px]'/></span>
+                return <span><SiLeetcode className='text-[20px]'/></span>
             case 'codeforces':
-                return <span><SiCodeforces className='text-[18px]' /></span>
+                return <span><SiCodeforces className='text-[20px]' /></span>
             // Add cases for other platforms and their corresponding icons
             case 'geeksforgeeks':
-                return <span><SiGeeksforgeeks className='text-[18px]' /></span>;
+                return <span><SiGeeksforgeeks className='text-[20px]' /></span>;
             default:
-                return <span><FaCode className='text-[18px]' /></span>; // Default icon
+                return <span><FaCode className='text-[20px]' /></span>; // Default icon
         }
     };
     
@@ -154,7 +155,7 @@ const ContestCalendar: React.FC = () => {
     return (
         <div className="bg-gray-50 h-screen w-screen flex flex-col">
             <Navbar />
-            <div className='m-10'>
+            <div className='m-16'>
                 <div className="flex w-full items-center mb-10 justify-between gap-4">
                     <input
                         type="text"
@@ -187,7 +188,7 @@ const ContestCalendar: React.FC = () => {
                                         <div>
                                             <div className='flex'>
                                             {event && getPlatformIcon(event.platform)}
-                                                <h3 className="text-lg font-semibold">{event.name.length > 30 ? event.name.slice(0, 40) + '...' : event.name}</h3>
+                                                <h3 className="ml-2 text-lg font-semibold">{event.name.length > 30 ? event.name.slice(0, 40) + '...' : event.name}</h3>
                                                 <a href={event.url} target="_blank" rel="noopener noreferrer" className="ml-2 text-blue-600">
                                                     <FaLink />
                                                 </a>
@@ -237,7 +238,7 @@ const ContestCalendar: React.FC = () => {
                         </button>
                         <div className='flex'>
                         {getPlatformIcon(selectedEvent.platform)}
-                        <h2 className="text-xl font-semibold">{selectedEvent.name}</h2>
+                        <h2 className="text-xl ml-2 font-semibold">{selectedEvent.name}</h2>
                         </div>
                         <p className="text-gray-500 mt-2 font-bold text-[20px]">{selectedEvent.platform}</p>
                         <p className="text-gray-950 mt-2 text-[18px]">Start: {selectedEvent.startDate.toLocaleString()}</p>
@@ -259,6 +260,8 @@ const ContestCalendar: React.FC = () => {
                     </div>
                 )}
             </div>
+
+            <Footer />
         </div>
     );
 };
