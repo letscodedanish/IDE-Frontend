@@ -7,7 +7,7 @@ import { Navbar } from './Navbar';
 
 /** Constants */
 const SLUG_WORKS = ["car", "dog", "computer", "person", "inside", "word", "for", "please", "to", "cool", "open", "source"];
-const SERVICE_URL = "http://localhost:3001";
+const SERVICE_URL = "http://13.201.21.248:3001";
 
 /** Styled components */
 

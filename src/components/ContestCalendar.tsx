@@ -4,6 +4,8 @@ import moment from 'moment';
 import 'react-big-calendar/lib/css/react-big-calendar.css';
 import axios from 'axios';
 import { Navbar } from './Navbar';
+import { FaCode, FaLink } from 'react-icons/fa';
+import { SiCodeforces, SiGeeksforgeeks, SiLeetcode } from "react-icons/si";
 
 const localizer = momentLocalizer(moment);
 
@@ -14,9 +16,9 @@ interface ContestEvent extends Event {
     endDate: Date;
     phase: string;
     duration: number;
-    relativeTime: number;
     durationSeconds: number;
     relativeTimeSeconds: number;
+    url: string;
 }
 
 const ContestCalendar: React.FC = () => {
@@ -24,38 +26,52 @@ const ContestCalendar: React.FC = () => {
     const [selectedEvent, setSelectedEvent] = useState<ContestEvent | null>(null);
     const [isModalOpen, setIsModalOpen] = useState(false);
     const [modalPosition, setModalPosition] = useState({ top: 0, left: 0 });
+    const [searchTerm, setSearchTerm] = useState('');
+    const [selectedPlatform, setSelectedPlatform] = useState<string>('');
 
     useEffect(() => {
         const fetchContests = async () => {
             try {
-                const sevenDaysAgo = new Date();
-                sevenDaysAgo.setDate(sevenDaysAgo.getDate() - 12);
-
-                const response = await axios.post('http://localhost:3001/api/contests', { withCredentials: true });
-                const data = response.data.filter((contest: ContestEvent) => {
-                    const contestDate = new Date(contest.startDate);
-                    return contestDate >= sevenDaysAgo;
-                }).map((contest: ContestEvent) => ({
-                    title: `${contest.name} (${contest.platform})`,
-                    start: new Date(contest.startDate),
-                    end: new Date(contest.endDate),
-                    allDay: false,
-                    platform: contest.platform,
-                    name: contest.name,
-                    startDate: new Date(contest.startDate),
-                    endDate: new Date(contest.endDate),
-                    phase: contest.phase,
-                    duration: contest.durationSeconds / 60, // Convert to minutes
-                    relativeTime: contest.relativeTimeSeconds,
-
-                }));
-
-                setEvents(data);
+                const response = await axios.get('/data/contests.json');
+                console.log('Fetched contest data:', response.data);
+    
+                const contests = response.data.data;
+                
+                if (Array.isArray(contests)) {
+                    const data = contests.map((contest: Contest) => ({
+                        title: `${contest.contestName} (${contest.platform})`,
+                        start: new Date(contest.contestStartDate),
+                        end: new Date(contest.contestEndDate),
+                        allDay: false,
+                        platform: contest.platform,
+                        name: contest.contestName,
+                        startDate: new Date(contest.contestStartDate),
+                        endDate: new Date(contest.contestEndDate),
+                        phase: contest.contestType,
+                        duration: contest.contestDuration / 60,
+                        durationSeconds: contest.contestDuration,
+                        relativeTimeSeconds: 0,
+                        url: contest.contestUrl || '' // Ensure URL field is available
+                    }));
+                    setEvents(data);
+                } else {
+                    console.error('Response data is not an array:', contests);
+                }
+                
+                interface Contest {
+                    contestName: string;
+                    platform: string;
+                    contestStartDate: string;
+                    contestEndDate: string;
+                    contestType: string;
+                    contestDuration: number;
+                    contestUrl?: string;
+                }
             } catch (error) {
                 console.error('Error fetching contests:', error);
             }
         };
-
+    
         fetchContests();
     }, []);
 
@@ -93,21 +109,52 @@ const ContestCalendar: React.FC = () => {
         }
     };
 
-    const [searchTerm, setSearchTerm] = useState('');
-
     const handleSearchChange = (e: React.ChangeEvent<HTMLInputElement>) => {
         setSearchTerm(e.target.value);
     };
 
+    const handlePlatformChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
+        setSelectedPlatform(e.target.value);
+    };
+
     const filteredEvents = events.filter((event) =>
+        (selectedPlatform === '' || event.platform === selectedPlatform) &&
         event.name.toLowerCase().includes(searchTerm.toLowerCase())
     );
+
+    const getPlatformIcon = (platform: string) => {
+        switch (platform.toLowerCase()) {
+            case 'leetcode':
+                // return <SiLeetcode className="text-lg mr-2" />;
+                return <span><SiLeetcode className='text-[18px]'/></span>
+            case 'codeforces':
+                return <span><SiCodeforces className='text-[18px]' /></span>
+            // Add cases for other platforms and their corresponding icons
+            case 'geeksforgeeks':
+                return <span><SiGeeksforgeeks className='text-[18px]' /></span>;
+            default:
+                return <span><FaCode className='text-[18px]' /></span>; // Default icon
+        }
+    };
+    
+    type EventProps = {
+        event: ContestEvent;
+    };
+    
+    const CustomEvent: React.FC<EventProps> = ({ event }) => {
+        return (
+            <span className="flex items-center p-[3px] gap-[4px]">
+                {getPlatformIcon(event.platform)}
+                <span>{event.title}</span>
+            </span>
+        );
+    };
+    
 
     return (
         <div className="bg-gray-50 h-screen w-screen flex flex-col">
             <Navbar />
             <div className='m-10'>
-            <div className=''>
                 <div className="flex w-full items-center mb-10 justify-between gap-4">
                     <input
                         type="text"
@@ -116,80 +163,101 @@ const ContestCalendar: React.FC = () => {
                         value={searchTerm}
                         onChange={handleSearchChange}
                     />
-                    <select className="w-full text-gray-400 px-4 py-3 text-[25px] border rounded-md border-gray-300 rounded-r-lg focus:outline-none">
+                    <select 
+                        value={selectedPlatform}
+                        onChange={handlePlatformChange}
+                        className="w-full text-gray-400 px-4 py-3 text-[25px] border rounded-md border-gray-300 rounded-r-lg focus:outline-none"
+                    >
                         <option value="">All Platforms</option>
-                        <option value="platform1">Platform 1</option>
-                        <option value="platform2">Platform 2</option>
-                        <option value="platform3">Platform 3</option>
+                        <option value="leetcode">LeetCode</option>
+                        <option value="codeforces">Codeforces</option>
+                        {/* Add more platforms as needed */}
                     </select>
                 </div>
-            </div>
             
-            <div className="grid grid-cols-1 lg:grid-cols-3 gap-4">
-                <div className="col-span-1 lg:col-span-1">
-                    <h2 className="text-2xl font-bold text-gray-800 mb-2">Upcoming Contests</h2>
-                    <p className="text-sm font-mono text-slate-700 mb-4">Don't miss scheduled events</p>
-                    <div className="space-y-4 overflow-scroll scroll-smooth overflow-x-hidden h-[650px]">
-                        {filteredEvents.map((event) => (
-                            <div key={event.startDate.toString()} className="bg-white p-4 rounded-lg shadow border border-gray-400">
-                                <div className="flex items-center justify-between">
-                                    <div className="">
-                                        <h3 className="text-lg font-semibold">{event.name.length > 30 ? event.name.slice(0, 30) + '...' : event.name}</h3>
-                                        <p className="text-gray-600 text-[20px] mt-2">{event.startDate.toLocaleString()}</p>
-                                        <button
-                                            onClick={handleAddToCalendar}
-                                            className="mt-2 text-[18px] underline text-blue-600 rounded"
-                                        >
-                                            Add to Google Calendar
-                                        </button>
+                <div className="grid grid-cols-1 lg:grid-cols-3 gap-4">
+                    <div className="col-span-1 lg:col-span-1">
+                        <h2 className="text-2xl font-bold text-gray-800 mb-2">Upcoming Contests</h2>
+                        <p className="text-sm font-mono text-slate-700 mb-4">Don't miss scheduled events</p>
+                        <div className="space-y-4 overflow-scroll scroll-smooth overflow-x-hidden h-[650px]">
+                            {filteredEvents.map((event) => (
+                                <div key={event.startDate.toString()} className="bg-white p-4 rounded-lg shadow border border-gray-400">
+                                    <div className="flex items-center justify-between">
+                
+                                        <div>
+                                            <div className='flex'>
+                                            {event && getPlatformIcon(event.platform)}
+                                                <h3 className="text-lg font-semibold">{event.name.length > 30 ? event.name.slice(0, 40) + '...' : event.name}</h3>
+                                                <a href={event.url} target="_blank" rel="noopener noreferrer" className="ml-2 text-blue-600">
+                                                    <FaLink />
+                                                </a>
+                                            
+                                            </div>
+                                            <p className="text-gray-600 text-[20px] mt-2">{event.startDate.toLocaleString()}</p>
+                                            <button
+                                                onClick={handleAddToCalendar}
+                                                className="mt-2 text-[18px] underline text-blue-600 rounded"
+                                            >
+                                                Add to Google Calendar
+                                            </button>
+                                            
+                                        </div>
                                     </div>
-                                    
-                                    
                                 </div>
-                            </div>
-                        ))}
+                            ))}
+                        </div>
+                    </div>
+
+                    <div className="col-span-1 lg:col-span-2 ">
+                        <Calendar
+                            localizer={localizer}
+                            events={filteredEvents}
+                            startAccessor="start"
+                            endAccessor="start"
+                            style={{ height: 700 }}
+                            onSelectEvent={handleEventClick}
+                            className="rounded-lg shadow bg-white p-4 border border-gray-100"
+                            components={{
+                                event: CustomEvent, // Use the custom event component
+                            }}
+                        />
                     </div>
                 </div>
 
-                <div className="col-span-1 lg:col-span-2">
-                    <Calendar
-                        localizer={localizer}
-                        events={filteredEvents}
-                        startAccessor="start"
-                        endAccessor="end"
-                        style={{ height: 700 }}
-                        onSelectEvent={handleEventClick}
-                        className="rounded-lg shadow bg-white p-4 border border-gray-100"
-                    />
-                </div>
-            </div>
-
-            {isModalOpen && selectedEvent && (
-                <div
-                    className="absolute bg-white shadow-lg p-6 rounded-lg border-t-4 border-blue-600"
-                    style={{ top: modalPosition.top, left: modalPosition.left, zIndex: 10 }}
-                >
-                    <button
-                        onClick={closeModal}
-                        className="absolute top-2 right-2 text-gray-500 hover:text-gray-700"
+                {isModalOpen && selectedEvent && (
+                    <div
+                        className="absolute bg-white shadow-lg p-6 rounded-lg border-t-4 border-blue-600"
+                        style={{ top: modalPosition.top, left: modalPosition.left, zIndex: 10 }}
                     >
-                        &times;
-                    </button>
-                    <h2 className="text-xl font-semibold">{selectedEvent.name}</h2>
-                    <p className="text-gray-500 mt-2 font-bold text-[20px]">{selectedEvent.platform}</p>
-                    <p className="text-gray-950 mt-2 text-[18px]">Start: {selectedEvent.startDate.toLocaleString()}</p>
-                    <p className="text-gray-950 mt-1 text-[18px]">End: {selectedEvent.endDate.toLocaleString()}</p>
-                    <p className="text-gray-950 mt-1 text-[18px]">Status: {selectedEvent.phase}</p>
-                    <p className="text-gray-950 mt-1 text-[18px]">Duration: {selectedEvent.duration} minutes</p>
-                    <p className="text-gray-950 mt-1 text-[18px]">Time Until Start: {Math.abs(selectedEvent.relativeTime)} seconds</p>
-                    <button
-                        onClick={handleAddToCalendar}
-                        className="mt-4 text-[18px] bg-blue-500 text-white px-4 py-2 rounded hover:bg-blue-600"
-                    >
-                        Add to Google Calendar
-                    </button>
-                </div>
-            )}
+                        <button
+                            onClick={closeModal}
+                            className="absolute top-2 right-2 text-gray-500 hover:text-gray-700"
+                        >
+                            &times;
+                        </button>
+                        <div className='flex'>
+                        {getPlatformIcon(selectedEvent.platform)}
+                        <h2 className="text-xl font-semibold">{selectedEvent.name}</h2>
+                        </div>
+                        <p className="text-gray-500 mt-2 font-bold text-[20px]">{selectedEvent.platform}</p>
+                        <p className="text-gray-950 mt-2 text-[18px]">Start: {selectedEvent.startDate.toLocaleString()}</p>
+                        <p className="text-gray-950 mt-1 text-[18px]">End: {selectedEvent.endDate.toLocaleString()}</p>
+                        <p className="text-gray-950 mt-1 text-[18px]">Status: {selectedEvent.phase}</p>
+                        <p className="text-gray-950 mt-1 text-[18px]">Duration: {selectedEvent.duration} minutes</p>
+                        <p className="text-gray-950 mt-1 text-[18px]">Time Until Start: {Math.abs(selectedEvent.relativeTimeSeconds)} seconds</p>
+                        {selectedEvent.url && (
+                            <a href={selectedEvent.url} target="_blank" rel="noopener noreferrer" className="mt-4 text-blue-500 underline text-[20px]">
+                                Open Contest
+                            </a>
+                        )}
+                        <button
+                            onClick={handleAddToCalendar}
+                            className="mt-4 ml-4 text-[18px] bg-blue-500 text-white px-4 py-2 rounded hover:bg-blue-600"
+                        >
+                            Add to Google Calendar
+                        </button>
+                    </div>
+                )}
             </div>
         </div>
     );
