@@ -91,7 +91,7 @@ const LeetCodeDashboard: React.FC = () => {
   return (
     <div className="bg-gray-50 h-screen w-screen flex flex-col">
       <Navbar />
-      <h1 className="text-3xl font-bold mb-6">LeetCode Dashboard</h1>
+      <h1 className="text-3xl font-bold mb-6">Coming sooon....</h1>
       <form onSubmit={handleSubmit} className="mb-6 flex">
         <input
           type="text"
