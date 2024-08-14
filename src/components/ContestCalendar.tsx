@@ -32,29 +32,41 @@ const ContestCalendar: React.FC = () => {
     useEffect(() => {
         const fetchContests = async () => {
             try {
-                const sevenDaysAgo = new Date();
-                sevenDaysAgo.setDate(sevenDaysAgo.getDate() - 12);
-
-                const response = await axios.post('http://13.201.21.248:3001/api/contests', { withCredentials: true });
-                const data = response.data.filter((contest: ContestEvent) => {
-                    const contestDate = new Date(contest.startDate);
-                    return contestDate >= sevenDaysAgo;
-                }).map((contest: ContestEvent) => ({
-                    title: `${contest.name} (${contest.platform})`,
-                    start: new Date(contest.startDate),
-                    end: new Date(contest.endDate),
-                    allDay: false,
-                    platform: contest.platform,
-                    name: contest.name,
-                    startDate: new Date(contest.startDate),
-                    endDate: new Date(contest.endDate),
-                    phase: contest.phase,
-                    duration: contest.durationSeconds / 60, // Convert to minutes
-                    relativeTime: contest.relativeTimeSeconds,
-
-                }));
-
-                setEvents(data);
+                const response = await axios.get('/data/contests.json');
+                console.log('Fetched contest data:', response.data);
+    
+                const contests = response.data.data;
+                
+                if (Array.isArray(contests)) {
+                    const data = contests.map((contest: Contest) => ({
+                        title: `${contest.contestName} (${contest.platform})`,
+                        start: new Date(contest.contestStartDate),
+                        end: new Date(contest.contestEndDate),
+                        allDay: false,
+                        platform: contest.platform,
+                        name: contest.contestName,
+                        startDate: new Date(contest.contestStartDate),
+                        endDate: new Date(contest.contestEndDate),
+                        phase: contest.contestType,
+                        duration: contest.contestDuration / 60,
+                        durationSeconds: contest.contestDuration,
+                        relativeTimeSeconds: 0,
+                        url: contest.contestUrl || '' // Ensure URL field is available
+                    }));
+                    setEvents(data);
+                } else {
+                    console.error('Response data is not an array:', contests);
+                }
+                
+                interface Contest {
+                    contestName: string;
+                    platform: string;
+                    contestStartDate: string;
+                    contestEndDate: string;
+                    contestType: string;
+                    contestDuration: number;
+                    contestUrl?: string;
+                }
             } catch (error) {
                 console.error('Error fetching contests:', error);
             }
