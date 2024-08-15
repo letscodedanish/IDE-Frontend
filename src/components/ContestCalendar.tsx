@@ -172,6 +172,9 @@ const ContestCalendar: React.FC = () => {
                         <option value="">All Platforms</option>
                         <option value="leetcode">LeetCode</option>
                         <option value="codeforces">Codeforces</option>
+                        <option value="geeksforgeeks">GeeksforGeeks</option>
+                        <option value="atcoder">AtCoder</option>
+                        <option value="codechef">CodeChef</option>
                         {/* Add more platforms as needed */}
                     </select>
                 </div>
@@ -217,6 +220,12 @@ const ContestCalendar: React.FC = () => {
                             endAccessor="start"
                             style={{ height: 700 }}
                             onSelectEvent={handleEventClick}
+                            views={{
+                                day: true,
+                                week: true,
+                                month: true,
+                                agenda: true,
+                              }}
                             className="rounded-lg shadow bg-white p-4 border border-gray-100"
                             components={{
                                 event: CustomEvent, // Use the custom event component
