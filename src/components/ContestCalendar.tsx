@@ -4,9 +4,10 @@ import moment from 'moment';
 import 'react-big-calendar/lib/css/react-big-calendar.css';
 import axios from 'axios';
 import { Navbar } from './Navbar';
-import { FaCode, FaLink } from 'react-icons/fa';
+import { FaCode } from 'react-icons/fa';
 import { SiCodeforces, SiGeeksforgeeks, SiLeetcode } from "react-icons/si";
 import Footer from './Footer';
+import { LucideExternalLink } from 'lucide-react';
 
 const localizer = momentLocalizer(moment);
 
@@ -190,11 +191,13 @@ const ContestCalendar: React.FC = () => {
                 
                                         <div>
                                             <div className='flex'>
-                                            {event && getPlatformIcon(event.platform)}
-                                                <h3 className="ml-2 text-lg font-semibold">{event.name.length > 30 ? event.name.slice(0, 40) + '...' : event.name}</h3>
-                                                <a href={event.url} target="_blank" rel="noopener noreferrer" className="ml-2 text-blue-600">
-                                                    <FaLink />
-                                                </a>
+                                                {event && getPlatformIcon(event.platform)}
+                                                <div className='-mt-1 flex'>
+                                                    <h3 className="ml-2 text-lg font-semibold">{event.name.length > 30 ? event.name.slice(0, 30) + '...' : event.name}</h3>
+                                                    <a href={event.url} target="_blank" rel="noopener noreferrer" className="ml-2 text-black">
+                                                        <LucideExternalLink />
+                                                    </a>
+                                                </div>
                                             
                                             </div>
                                             <p className="text-gray-600 text-[20px] mt-2">{event.startDate.toLocaleString()}</p>
@@ -202,6 +205,7 @@ const ContestCalendar: React.FC = () => {
                                                 onClick={handleAddToCalendar}
                                                 className="mt-2 text-[18px] underline text-blue-600 rounded"
                                             >
+                                                
                                                 Add to Google Calendar
                                             </button>
                                             
