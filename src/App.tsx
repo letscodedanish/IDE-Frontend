@@ -5,7 +5,7 @@ import { Dashboard } from './components/Dashboard';
 import  Profile  from './components/Profile';
 import io from 'socket.io-client';
 import ContestCalendar from './components/ContestCalendar';
-const socket = io("http://13.201.21.248:3001");
+const socket = io("http://localhost:3001");
 
 function App() {
   return (

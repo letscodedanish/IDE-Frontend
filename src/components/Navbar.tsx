@@ -37,12 +37,13 @@ export const Navbar = () => {
 
                         <div className="hidden md:flex">
                             <a
-                                href="#"
+                                href="https://drive.google.com/file/d/1q6cs_bOna6zD4aUsrZDDQEtRB4mC_NRP/view?usp=sharing/"
+                                target='_blank'
                                 title=""
                                 className="inline-flex items-center justify-center px-6 py-3 text-base font-bold leading-7 text-white transition-all duration-200 bg-gray-900 border border-transparent rounded hover:bg-gray-600 font-pj focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-gray-900"
                                 role="button"
                             >
-                                Try it for free
+                                View Demo
                             </a>
                         </div>
                     </div>
