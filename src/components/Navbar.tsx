@@ -10,7 +10,7 @@ export const Navbar = () => {
                     <div className="relative flex items-center justify-between">
                         <div className="flex-shrink-0 ">
                             <a href="#" title="" className="flex rounded outline-none focus:ring-1 focus:ring-gray-900 focus:ring-offset-2">
-                               <h2 className='text-2xl font-semibold'>/ RARE BLOCKS</h2>
+                               <h2 className='text-2xl font-semibold'>Advance IDE</h2>
                             </a>
                         </div>
                         
