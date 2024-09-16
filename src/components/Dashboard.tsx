@@ -190,8 +190,10 @@ export const Dashboard = ({socket}: {socket: Socket}) => {
                             className="mb-4 p-3 border border-gray-300 rounded text-black font-mono w-[90%] text-[20px] font-semibold"
                         >
                             <option value="node-js">Node.js</option>
-                            <option value="python">Python</option>
                             <option value="react-js">React.js</option>
+                            <option value="react-js">Next.js</option>
+                            <option value="python">Python</option>
+                            <option value="react-js">Rust</option>
                         </select>
                         
                         <button onClick={handleCreateRepl} className="bg-gray-900 text-white hover:bg-black border border-gray-900 font-bold py-2 px-4 rounded mt-2 mb-4 font-mono w-[90%] text-[25px]">Create Repl</button>
