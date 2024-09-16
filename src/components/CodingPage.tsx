@@ -23,6 +23,17 @@ const Container = styled.div`
 function useSocket(replId: string) {
     const [socket, setSocket] = useState<Socket | null>(null);
 
+    //use when running with kubernetes
+    // useEffect(() => {
+    //     const newSocket = io(`ws://${replId}.codelikeapro.tech`);
+    //     setSocket(newSocket);
+
+    //     return () => {
+    //         newSocket.disconnect();
+    //     };
+    // }, [replId]);
+
+
     useEffect(() => {
         console.log("Connecting to socket");
         const newSocket = io(`${EXECUTION_ENGINE_URI}?roomId=${replId}`);
@@ -35,6 +46,27 @@ function useSocket(replId: string) {
     }, [replId]);
     return socket;
 }
+
+// use when running with kubernetes
+// export const CodingPage = () => {
+//     const [podCreated, setPodCreated] = useState(false);
+//     const [searchParams] = useSearchParams();
+//     const replId = searchParams.get('replId') ?? '';
+    
+//     useEffect(() => {
+//         if (replId) {
+//             axios.post(`http://localhost:3002/start`, { replId })
+//                 .then(() => setPodCreated(true))
+//                 .catch((err) => console.error(err));
+//         }
+//     }, [replId]);
+
+//     if (!podCreated) {
+//         return <>Booting...</>
+//     }
+//     return <CodingPagePostPodCreation />
+
+// }
 
 export const CodingPage = () => {
     const [searchParams] = useSearchParams();
@@ -122,3 +154,61 @@ export const CodingPage = () => {
         </div>
     );
 }
+
+//export const CodingPagePostPodCreation = () => {
+    //     const [searchParams] = useSearchParams();
+    //     const replId = searchParams.get('replId') ?? '';
+    //     const [loaded, setLoaded] = useState(false);
+    //     const socket = useSocket(replId);
+    //     const [fileStructure, setFileStructure] = useState<RemoteFile[]>([]);
+    //     const [selectedFile, setSelectedFile] = useState<File | undefined>(undefined);
+    //     const [showOutput, setShowOutput] = useState(false);
+    
+    //     useEffect(() => {
+    //         if (socket) {
+    //             socket.on('loaded', ({ rootContent }: { rootContent: RemoteFile[]}) => {
+    //                 setLoaded(true);
+    //                 setFileStructure(rootContent);
+    //             });
+    //         }
+    //     }, [socket]);
+    
+    //     const onSelect = (file: File) => {
+    //         if (file.type === Type.DIRECTORY) {
+    //             socket?.emit("fetchDir", file.path, (data: RemoteFile[]) => {
+    //                 setFileStructure(prev => {
+    //                     const allFiles = [...prev, ...data];
+    //                     return allFiles.filter((file, index, self) => 
+    //                         index === self.findIndex(f => f.path === file.path)
+    //                     );
+    //                 });
+    //             });
+    //         } else {
+    //             socket?.emit("fetchContent", { path: file.path }, (data: string) => {
+    //                 file.content = data;
+    //                 setSelectedFile(file);
+    //             });
+    //         }
+    //     };
+        
+    //     if (!loaded) {
+    //         return "Loading...";
+    //     }
+    
+    //     return (
+    //         <Container>
+    //              <ButtonContainer>
+    //                 <button onClick={() => setShowOutput(!showOutput)}>See output</button>
+    //             </ButtonContainer>
+    //             <Workspace>
+    //                 <LeftPanel>
+    //                     <Editor socket={socket} selectedFile={selectedFile} onSelect={onSelect} files={fileStructure} />
+    //                 </LeftPanel>
+    //                 <RightPanel>
+    //                     {showOutput && <Output />}
+    //                     <Terminal socket={socket} />
+    //                 </RightPanel>
+    //             </Workspace>
+    //         </Container>
+    //     );
+    // }

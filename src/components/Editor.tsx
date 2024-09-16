@@ -72,7 +72,7 @@ export const Editor = ({
   socket: Socket;
 }) => {
   const [, setFileList] = useState(files);
-  let rootDir = useMemo(() => buildFileTree(files), [files]);
+  const rootDir = useMemo(() => buildFileTree(files), [files]);
 // const [rootDir, setRootDir] = useState(useMemo(() => buildFileTree(files), [files]));
   const [repositoryLink, setRepositoryLink] = useState("");
   const [newItemName, setNewItemName] = useState("");
