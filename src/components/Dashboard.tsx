@@ -1,6 +1,6 @@
 import { useState } from 'react';
 import axios from 'axios';
-import { useNavigate } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import { InfinitySpin } from 'react-loader-spinner';
 import { Socket } from "socket.io-client";
 import HowItWorks from './HowItWorks';
@@ -9,6 +9,7 @@ import Illustration from "../assets/Images/illustration.png"
 import Background from "../assets/Images/background-pattern.png"
 import Avatar from "../assets/Images/avatar-female.png"
 import { Navbar } from './Navbar';
+import { ExternalLink } from 'lucide-react';
 
 const SLUG_WORKS = ["car", "dog", "computer", "person", "inside", "word", "for", "please", "to", "cool", "open", "source"];
 const SERVICE_URL = "http://13.201.21.248:3001";
@@ -112,9 +113,13 @@ export const Dashboard = ({socket}: {socket: Socket}) => {
                                 <div className="card" onClick={() => handleLanguage('react-js')}>
                                     <h2 className='bg-green-500 hover:bg-gray-600 hover:cursor-pointer text-white font-bold py-2 px-4 rounded w-[130px] text-center'>Create React</h2>
                                 </div> */}
-                                <div className="card" onClick={() => setShowImportModal(true)}>
-                                    <h2 className='hover:bg-gray-600 hover:cursor-pointer text-white transition-all duration-200 bg-gray-900 border border-transparent  sm:mt-4  font-bold py-2 px-4 rounded w-[250px] text-center font-mono text-[20px]'>Import from GitHub</h2>
+                                <Link to="/code">
+                                <div className="card flex" >
+                                    <h2 className="inline-flex px-8 py-2 mt-4 text-lg font-bold text-white transition-all duration-200 bg-gray-900 border border-transparent rounded sm:mt-4 font-pj hover:bg-gray-600 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-gray-900
+                                    font-mono">Open Editor</h2>
+                                    <ExternalLink size={24} />
                                 </div>
+                                </Link>
                             </div>
                             <div className="mt-8 sm:mt-8">
                                 <div className="flex items-center justify-center lg:justify-start">
