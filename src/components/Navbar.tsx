@@ -28,9 +28,14 @@ export const Navbar = () => {
                                 </a>
                             </Link>
 
-                            <Link to="/profile">
+                            {/* <Link to="/profile">
                                 <a  title="" className="text-lg font-medium text-gray-900 transition-all duration-200 rounded focus:outline-none font-pj hover:text-opacity-50 focus:ring-1 focus:ring-gray-900 focus:ring-offset-2">
                                     Profile Tacker
+                                </a>
+                            </Link> */}
+                            <Link to="/code">
+                                <a  title="" className="text-lg font-medium text-gray-900 transition-all duration-200 rounded focus:outline-none font-pj hover:text-opacity-50 focus:ring-1 focus:ring-gray-900 focus:ring-offset-2">
+                                    Code Editor
                                 </a>
                             </Link>
                         </div>

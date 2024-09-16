@@ -5,6 +5,8 @@ import { Dashboard } from './components/Dashboard';
 import  Profile  from './components/Profile';
 import io from 'socket.io-client';
 import ContestCalendar from './components/ContestCalendar';
+import  Code  from './components/Code';
+import  Coding  from './components/Coding';
 const socket = io("http://13.201.21.248:3001");
 
 function App() {
@@ -15,6 +17,8 @@ function App() {
         <Route path="/profile" element={<Profile />} />
         <Route path="/" element={<Dashboard socket={socket} />} /> 
         <Route path="/event-tracker" element={<ContestCalendar/>} />
+        <Route path="/test" element={<Code/>} />
+        <Route path="/code" element={<Coding/>} />
       </Routes>
     </BrowserRouter>
   )
