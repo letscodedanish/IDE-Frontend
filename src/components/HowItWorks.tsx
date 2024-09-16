@@ -24,7 +24,7 @@ const HowItWorks = () => {
                                 <span className="text-xl font-semibold text-gray-700"> 1 </span>
                             </div>
                             <h3 className="mt-6 text-xl font-semibold leading-tight text-black md:mt-10">Create a free account</h3>
-                            <p className="mt-4 text-base text-gray-600">Amet minim mollit non deserunt ullamco est sit aliqua dolor do amet sint. Velit officia consequat duis enim velit mollit.</p>
+                            <p className="mt-4 text-base text-gray-600">Sign up for free to access our online coding environment. Instantly start coding in multiple languages with just a few clicks, all from your browser. No setup required.</p>
                         </div>
 
                         <div>
@@ -32,7 +32,7 @@ const HowItWorks = () => {
                                 <span className="text-xl font-semibold text-gray-700"> 2 </span>
                             </div>
                             <h3 className="mt-6 text-xl font-semibold leading-tight text-black md:mt-10">Build your website</h3>
-                            <p className="mt-4 text-base text-gray-600">Amet minim mollit non deserunt ullamco est sit aliqua dolor do amet sint. Velit officia consequat duis enim velit mollit.</p>
+                            <p className="mt-4 text-base text-gray-600">Write and execute your code seamlessly in our cloud-based editor. Test, debug, and see results in real-time. Perfect for learning, collaborating, or building your next project.</p>
                         </div>
 
                         <div>
@@ -40,7 +40,7 @@ const HowItWorks = () => {
                                 <span className="text-xl font-semibold text-gray-700"> 3 </span>
                             </div>
                             <h3 className="mt-6 text-xl font-semibold leading-tight text-black md:mt-10">Release & Launch</h3>
-                            <p className="mt-4 text-base text-gray-600">Amet minim mollit non deserunt ullamco est sit aliqua dolor do amet sint. Velit officia consequat duis enim velit mollit.</p>
+                            <p className="mt-4 text-base text-gray-600">Share your code with others or deploy your application directly from the platform. Collaborate with peers or deploy a live application with ease, all within minutes.</p>
                         </div>
                     </div>
                 </div>

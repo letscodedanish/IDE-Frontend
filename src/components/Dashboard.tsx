@@ -153,7 +153,7 @@ export const Dashboard = ({socket}: {socket: Socket}) => {
                                 <blockquote className="mt-6">
                                     <p className="text-lg font-bold text-gray-900 font-pj">Best code editor in market!</p>
                                     <p className="mt-3 text-base leading-7 text-gray-600 font-inter">
-                                    It has many features and is easy to use, and has a clean interface so that everyone can code easily. This platform's main advantage is that it can code in several languages and supports all programming languages.
+                                    Feature-packed, clean, and easy to use. This platform supports multiple languages and offers a seamless coding experience for developers of all levels.
                                     </p>
                                 </blockquote>
 

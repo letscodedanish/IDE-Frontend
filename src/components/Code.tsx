@@ -89,7 +89,7 @@ console.log('Hello Danish, Lets code!');`;
 
           <button
             onClick={runCode}
-            className="bg-blue-500 text-white px-4 py-2 rounded-md hover:bg-blue-600"
+            className="bg-black text-white px-4 py-2 rounded-md hover:bg-gray-600 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-gray-900 ml-[30px]"
             disabled={loading}
           >
             {loading ? "Running..." : "Run Code"}
@@ -99,7 +99,7 @@ console.log('Hello Danish, Lets code!');`;
         {/* Main content with editor and input/output fields */}
         <div className="flex w-full space-x-4">
           {/* Code Editor on the left */}
-          <div className="w-1/2 bg-white shadow-lg rounded-lg">
+          <div className="w-full bg-white shadow-lg rounded-lg">
             <Editor
               height="500px"
               defaultLanguage="javascript"
