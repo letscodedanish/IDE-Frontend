@@ -7,7 +7,10 @@ const HowItWorks = () => {
             <div className="px-4 mx-auto max-w-7xl sm:px-6 lg:px-8">
                 <div className="max-w-2xl mx-auto text-center mb-8">
                     <h2 className="text-3xl font-bold leading-tight text-black sm:text-4xl lg:text-5xl">How does it work?</h2>
-                    <p className="max-w-lg mx-auto mt-4 text-base leading-relaxed text-gray-600">Amet minim mollit non deserunt ullamco est sit aliqua dolor do amet sint. Velit officia consequat duis.</p>
+                    <p className="max-w-lg mx-auto mt-4 text-base leading-relaxed text-gray-600">Allows users to write, run, and share code directly from their browser.
+                        <br />
+                        Code Now, Open Editor for better experience
+                    </p>
                 </div>
                 <Code />
                 <div className="relative mt-12 lg:mt-20">
