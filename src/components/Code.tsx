@@ -3,23 +3,20 @@ import Editor from "@monaco-editor/react";
 import axios from "axios";
 
 const Code: React.FC = () => {
-  const codeValue=`//Write your code here 
+  const codeValue = `//Write your code here 
 console.log('Hello Danish, Lets code!');`;
-  const [code, setCode] = useState<string>(codeValue); // State for the code in the editor
-  const [input, setInput] = useState<string>(""); // State for user input (stdin)
-  const [output, setOutput] = useState<string>(""); // State for execution output
-  const [languageId, setLanguageId] = useState<number>(63); // Default to JavaScript (ID: 63)
-  const [loading, setLoading] = useState<boolean>(false); // For indicating execution in progress
-  const [theme, setTheme] = useState<string>("light"); // Default theme for Monaco Editor
+  const [code, setCode] = useState<string>(codeValue);
+  const [input, setInput] = useState<string>("");
+  const [output, setOutput] = useState<string>("");
+  const [languageId, setLanguageId] = useState<number>(63);
+  const [loading, setLoading] = useState<boolean>(false);
+  const [theme, setTheme] = useState<string>("light");
   const RAPIDAPI_KEY = "eb27743981mshcd2e5b0c4572cc7p1d59d6jsn722b9471e68a";
-  
 
-  // Handle code changes in the editor
   const handleEditorChange = (value: string | undefined) => {
     setCode(value || "");
   };
 
-  // Handle code execution with Judge0 API
   const runCode = async () => {
     setLoading(true);
     try {
@@ -49,10 +46,10 @@ console.log('Hello Danish, Lets code!');`;
   };
 
   return (
-    <div className="border border-spacing-4 m-10 border-black rounded-lg">
-      <div className="p-4 w-full text-[20px]">
+    <div className="border m-4 md:m-10 border-black rounded-lg">
+      <div className="p-4 w-full text-[16px] md:text-[20px]">
         {/* Language and Theme Selection */}
-        <div className="flex mb-4 w-full gap-10">
+        <div className="flex flex-col md:flex-row mb-4 w-full gap-4 md:gap-10">
           <div>
             <label htmlFor="language" className="mr-2 font-semibold">
               Language:
@@ -89,7 +86,7 @@ console.log('Hello Danish, Lets code!');`;
 
           <button
             onClick={runCode}
-            className="bg-black text-white px-4 py-2 rounded-md hover:bg-gray-600 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-gray-900 ml-[30px]"
+            className="bg-black text-white px-4 py-2 rounded-md hover:bg-gray-600 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-gray-900 mt-4 md:mt-0"
             disabled={loading}
           >
             {loading ? "Running..." : "Run Code"}
@@ -97,16 +94,15 @@ console.log('Hello Danish, Lets code!');`;
         </div>
 
         {/* Main content with editor and input/output fields */}
-        <div className="flex w-full space-x-4">
+        <div className="flex flex-col md:flex-row w-full space-y-4 md:space-y-0 md:space-x-4">
           {/* Code Editor on the left */}
-          <div className="w-full bg-white shadow-lg rounded-lg">
+          <div className="w-full md:w-1/2 bg-white shadow-lg rounded-lg">
             <Editor
-              height="500px"
+              height="400px"
               defaultLanguage="javascript"
               theme={theme}
               value={code}
-              options={{ fontSize: 22 }
-            }
+              options={{ fontSize: 18 }}
               onChange={handleEditorChange}
               defaultValue="//Write your code here 
 console.log('Hello, Danish Lets code!');"
@@ -114,7 +110,7 @@ console.log('Hello, Danish Lets code!');"
           </div>
 
           {/* Input and Output on the right */}
-          <div className="w-1/2 space-y-4">
+          <div className="w-full md:w-1/2 space-y-4">
             <div>
               <label htmlFor="input" className="font-semibold">
                 Input (stdin):
@@ -123,14 +119,14 @@ console.log('Hello, Danish Lets code!');"
                 id="input"
                 value={input}
                 onChange={(e) => setInput(e.target.value)}
-                className="w-full text-[20px] h-24 p-2 border border-gray-300 rounded-md"
+                className="w-full text-[16px] md:text-[20px] h-24 p-2 border border-gray-300 rounded-md"
                 placeholder="Provide input if needed"
               />
             </div>
 
             <div>
               <label className="font-semibold">Output:</label>
-              <pre className="w-full text-[25px] h-48 p-2 border border-gray-300 bg-gray-200 rounded-md overflow-y-auto">
+              <pre className="w-full text-[16px] md:text-[20px] h-48 p-2 border border-gray-300 bg-gray-200 rounded-md overflow-y-auto">
                 {output}
               </pre>
             </div>
@@ -142,3 +138,4 @@ console.log('Hello, Danish Lets code!');"
 };
 
 export default Code;
+  
