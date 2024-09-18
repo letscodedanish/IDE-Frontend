@@ -1,0 +1,20 @@
+[
+    {
+      "id": 1,
+      "title": "Two Sum",
+      "description": "Given an array of integers, return indices of the two numbers such that they add up to a specific target.",
+      "testCases": [
+        { "input": "nums = [2, 7, 11, 15], target = 9", "output": "[0, 1]" },
+        { "input": "nums = [3, 2, 4], target = 6", "output": "[1, 2]" }
+      ]
+    },
+    {
+      "id": 2,
+      "title": "Add Two Numbers",
+      "description": "You are given two non-empty linked lists representing two non-negative integers.",
+      "testCases": [
+        { "input": "l1 = [2,4,3], l2 = [5,6,4]", "output": "[7,0,8]" }
+      ]
+    }
+  ]
+  

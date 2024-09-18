@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { Editor } from "@monaco-editor/react";
 import { Panel, PanelGroup, PanelResizeHandle } from "react-resizable-panels";
 import { Button } from "../components/ui/button";
@@ -31,6 +31,30 @@ const languageIds = {
 };
 const themes = ["vs-dark", "light"];
 
+// Boilerplate code for each language
+const boilerplateCode: Record<string, string> = {
+  javascript: `// Write your code here
+console.log('Hello World!');`,
+  python: `# Write your code here
+print('Hello World!')`,
+  java: `// Write your code here
+public class Main {
+    public static void main(String[] args) {
+        System.out.println("Hello World!");
+    }
+}`,
+  cpp: `// Write your code here
+#include <iostream>
+using namespace std;
+
+int main() {
+    cout << "Hello World!" << endl;
+    return 0;
+}`,
+  typescript: `// Write your code here
+console.log('Hello World!');`,
+};
+
 interface FileItem {
   name: string;
   type: "file" | "folder";
@@ -58,16 +82,15 @@ const initialFiles: FileItem[] = [
 const RAPIDAPI_KEY = "eb27743981mshcd2e5b0c4572cc7p1d59d6jsn722b9471e68a";
 
 export default function CodeIDE() {
-  const codeValue=`//Write your code here 
-console.log('Hello Danish, Lets code!');`;
   const [language, setLanguage] = useState<keyof typeof languageIds>("javascript");
   const [theme, setTheme] = useState("vs-dark");
-  const [code, setCode] = useState(codeValue);
+  const [code, setCode] = useState(boilerplateCode["javascript"]);
   const [input, setInput] = useState("");
   const [output, setOutput] = useState("");
   const [loading, setLoading] = useState(false);
   const [files] = useState(initialFiles);
   const [expandedFolders, setExpandedFolders] = useState(["src", "public"]);
+
   const toggleFolder = (folderName: string) => {
     setExpandedFolders((prev) =>
       prev.includes(folderName)
@@ -103,11 +126,11 @@ console.log('Hello Danish, Lets code!');`;
     }
     setLoading(false);
   };
-  interface FileItem {
-    name: string;
-    type: "file" | "folder";
-    children?: FileItem[];
-  }
+
+  useEffect(() => {
+    // Update the code when language changes
+    setCode(boilerplateCode[language]);
+  }, [language]);
 
   const renderFileTree = (items: FileItem[], depth = 0) => {
     return items.map((item: FileItem) => (
@@ -180,7 +203,6 @@ console.log('Hello Danish, Lets code!');`;
               </SelectContent>
             </Select>
           </div>
-          
 
           <Button
             onClick={handleRun}
@@ -221,7 +243,7 @@ console.log('Hello Danish, Lets code!');`;
                 Code Faster
               </a>
             </h1>
-            
+
           </div>
         </div>
         <PanelGroup direction="horizontal" className="flex-grow">
@@ -245,9 +267,8 @@ console.log('Hello Danish, Lets code!');`;
                   vertical: "visible",
                   horizontal: "visible",
                 },
-              fontSize: 20 }}
-              defaultValue="//Write your code here 
-console.log('Hello, Danish Lets code!');"
+                fontSize: 20
+              }}
             />
           </Panel>
           <PanelResizeHandle className="w-2 bg-[#3c3c3c] hover:bg-[#6b6b6b] transition-colors" />
