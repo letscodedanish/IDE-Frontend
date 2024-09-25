@@ -27,8 +27,6 @@ interface CodeTemplates {
   [language: string]: CodeTemplate;
 }
 
-// const RAPIDAPI_KEY = "eb27743981mshcd2e5b0c4572cc7p1d59d6jsn722b9471e68a";
-
 export default function SolveProblems() {
   const [language, setLanguage] = useState("javascript");
   const [theme] = useState("vs-dark");
@@ -41,17 +39,27 @@ export default function SolveProblems() {
   const [codeTemplates, setCodeTemplates] = useState<CodeTemplates>({});
   const [testResult, setTestResult] = useState("");
 
-  useEffect(() => {
-    const fetchProblems = async () => {
-      try {
-        const problemsResponse = await fetch("/data/problems.json");
-        const problemsData = await problemsResponse.json();
-        setProblems(problemsData);
-      } catch (error) {
-        console.error("Error fetching problems:", error);
+  // Fetch Codeforces Problems
+  const fetchCodeforcesProblems = async () => {
+    try {
+      const response = await fetch("https://codeforces.com/api/problemset.problems");
+      const data = await response.json();
+      if (data.status === "OK") {
+        // Map the problem data to your problem interface structure
+        const problems = data.result.problems;
+        setProblems(problems.map((p: { name: string; index: string }, idx: number) => ({
+          id: idx,
+          title: p.name,
+          description: p.index, // Problem index and name for uniqueness
+          testCases: [], // You might need to scrape or manually add test cases.
+        })));
       }
-    };
+    } catch (error) {
+      console.error("Error fetching Codeforces problems:", error);
+    }
+  };
 
+  useEffect(() => {
     const fetchCodeTemplates = async () => {
       try {
         const codeTemplatesResponse = await fetch("/data/codevalue.json");
@@ -63,8 +71,8 @@ export default function SolveProblems() {
       }
     };
 
-    fetchProblems();
-    fetchCodeTemplates();
+    fetchCodeforcesProblems(); // Fetch Codeforces problems
+    fetchCodeTemplates(); // Fetch code templates
   }, []);
 
   const handleRun = async () => {
@@ -142,7 +150,7 @@ export default function SolveProblems() {
           <>
             <div className="p-4 bg-white border-b border-gray-300">
               <h2 className="text-xl font-semibold">{selectedProblem.title}</h2>
-              <p className="mt-2 text-gray-700">{selectedProblem.description}</p>
+              <p className="mt-2 text-gray-700">Problem Index: {selectedProblem.description}</p>
             </div>
 
             {/* Code and Test */}

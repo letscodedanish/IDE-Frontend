@@ -102,7 +102,7 @@ console.log('Hello Danish, Lets code!');`;
               defaultLanguage="javascript"
               theme={theme}
               value={code}
-              options={{ fontSize: 18 }}
+              options={{ fontSize: 18 , quickSuggestions: true, wordBasedSuggestions: true}}
               onChange={handleEditorChange}
               defaultValue="//Write your code here 
 console.log('Hello, Danish Lets code!');"

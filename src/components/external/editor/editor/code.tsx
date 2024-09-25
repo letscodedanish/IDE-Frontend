@@ -17,7 +17,7 @@ export const Code = ({ selectedFile, socket }: { selectedFile: File | undefined,
     language = "python"
 
     function debounce(func: (value: string) => void, wait: number) {
-      let timeout: number;
+      let timeout: ReturnType<typeof setTimeout>;
       return (value: string) => {
         clearTimeout(timeout);
         timeout = setTimeout(() => {
