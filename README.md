@@ -22,7 +22,7 @@ Advance IDE is a comprehensive, web-based integrated development environment (ID
 
 - **Frontend:** Next.js, React.js, Monaco Editor
 - **Backend:** Node.js, Express
-- **Containerization:** Docker
+- **Containerization**: Docker, Kubernetes  
 - **Storage:** AWS S3 for file storage, PostgreSQL for user and project data, MongoDB for playground data
 - **Authentication:** Clerk for managing user authentication and event-based webhooks
 - **Real-Time Communication:** Socket.io for managing WebSocket connections
