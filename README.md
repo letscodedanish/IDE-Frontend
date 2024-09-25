@@ -68,3 +68,7 @@ We welcome contributions from the community! If you'd like to contribute:
 3. Commit your changes (`git commit -m 'Add some AmazingFeature'`).
 4. Push to the branch (`git push origin feature/AmazingFeature`).
 5. Open a pull request.
+
+![Screenshot (1592)](https://github.com/user-attachments/assets/e6acd902-83c6-4528-b55c-b26a8d2892fe)
+![Screenshot (1508)](https://github.com/user-attachments/assets/9d07e086-291c-4a97-855e-e0d56db2cd63)
+
