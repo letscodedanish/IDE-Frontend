@@ -1,16 +1,47 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import Editor from "@monaco-editor/react";
 import axios from "axios";
 
+const languages = ["javascript", "python", "java", "cpp", "typescript"];
+const languageIds = {
+  javascript: 63,
+  python: 71,
+  java: 62,
+  cpp: 54,
+  typescript: 74,
+};
+
+// Boilerplate code for each language
+const boilerplateCode: Record<string, string> = {
+  javascript: `// Write your code here
+console.log('Hello World!');`,
+  python: `# Write your code here
+print('Hello World!')`,
+  java: `// Write your code here
+public class Main {
+    public static void main(String[] args) {
+        System.out.println("Hello World!");
+    }
+}`,
+  cpp: `// Write your code here
+#include <iostream>
+using namespace std;
+
+int main() {
+    cout << "Hello World!" << endl;
+    return 0;
+}`,
+  typescript: `// Write your code here
+console.log('Hello World!');`,
+};
+
 const Code: React.FC = () => {
-  const codeValue = `//Write your code here 
-console.log('Hello Danish, Lets code!');`;
-  const [code, setCode] = useState<string>(codeValue);
-  const [input, setInput] = useState<string>("");
-  const [output, setOutput] = useState<string>("");
-  const [languageId, setLanguageId] = useState<number>(63);
-  const [loading, setLoading] = useState<boolean>(false);
-  const [theme, setTheme] = useState<string>("light");
+  const [language, setLanguage] = useState<keyof typeof languageIds>("javascript");
+  const [theme, setTheme] = useState("vs-light");
+  const [code, setCode] = useState(boilerplateCode["javascript"]);
+  const [input, setInput] = useState("");
+  const [output, setOutput] = useState("");
+  const [loading, setLoading] = useState(false);
   const RAPIDAPI_KEY = "eb27743981mshcd2e5b0c4572cc7p1d59d6jsn722b9471e68a";
 
   const handleEditorChange = (value: string | undefined) => {
@@ -20,6 +51,7 @@ console.log('Hello Danish, Lets code!');`;
   const runCode = async () => {
     setLoading(true);
     try {
+      const languageId = languageIds[language]; // Correctly set languageId from the object
       const options = {
         method: "POST",
         url: "https://judge0-ce.p.rapidapi.com/submissions",
@@ -39,11 +71,16 @@ console.log('Hello Danish, Lets code!');`;
       const response = await axios.request(options);
       setOutput(response.data.stdout || response.data.stderr || "No output");
     } catch (error) {
-      console.error("Error executing code:");
+      console.error("Error executing code:", error);
       setOutput("Code execution failed");
     }
     setLoading(false);
   };
+
+  useEffect(() => {
+    // Update the code when the language changes
+    setCode(boilerplateCode[language]);
+  }, [language]);
 
   return (
     <div className="border m-4 md:m-10 border-black rounded-lg">
@@ -55,15 +92,15 @@ console.log('Hello Danish, Lets code!');`;
               Language:
             </label>
             <select
-              id="language"
-              value={languageId}
-              onChange={(e) => setLanguageId(Number(e.target.value))}
+              onChange={(e) => setLanguage(e.target.value as keyof typeof languageIds)}
+              value={language}
               className="p-2 border border-gray-300 rounded-md"
             >
-              <option value="63">JavaScript</option>
-              <option value="54">C++</option>
-              <option value="62">Java</option>
-              <option value="71">Python</option>
+              {languages.map((lang) => (
+                <option key={lang} value={lang}>
+                  {lang.charAt(0).toUpperCase() + lang.slice(1)}
+                </option>
+              ))}
             </select>
           </div>
 
@@ -102,10 +139,8 @@ console.log('Hello Danish, Lets code!');`;
               defaultLanguage="javascript"
               theme={theme}
               value={code}
-              options={{ fontSize: 18 , quickSuggestions: true, wordBasedSuggestions: true}}
+              options={{ fontSize: 18, quickSuggestions: true, wordBasedSuggestions: true }}
               onChange={handleEditorChange}
-              defaultValue="//Write your code here 
-console.log('Hello, Danish Lets code!');"
             />
           </div>
 
@@ -138,4 +173,3 @@ console.log('Hello, Danish Lets code!');"
 };
 
 export default Code;
-  
